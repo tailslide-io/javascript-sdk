@@ -15,17 +15,17 @@ const config = {
 
   const FlagToggler = manager.newToggler(flagConfig);
   let counts = 0;
-  let interval = setInterval(() => {
-    if (FlagToggler.isFlagActive()) {
-      console.log('Flag in App9 number 2 is active!');
-    } else {
-      console.log('Flag in App9 number 2 is not active!');
-    }
-    counts++;
-    if (counts > 3) {
-      clearInterval(interval);
-    }
-  }, 3000);
+  // let interval = setInterval(() => {
+  if (FlagToggler.isFlagActive()) {
+    console.log('Flag in App9 number 2 is active!');
+  } else {
+    console.log('Flag in App9 number 2 is not active!');
+  }
+  //   counts++;
+  //   if (counts > 3) {
+  //     clearInterval(interval);
+  //   }
+  // }, 3000);
 
   const cleanup = async () => {
     await manager.disconnect();
