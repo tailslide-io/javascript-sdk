@@ -9,23 +9,23 @@ const config = {
   const manager = new FlagManager(config);
   await manager.init();
 
-  // const flagConfig = {
-  //   flagName: 'Flag in app 9 number 2',
-  // };
+  const flagConfig = {
+    flagName: 'Flag in app 9 number 2',
+  };
 
-  // const FlagToggler = manager.newToggler(flagConfig);
-  // let counts = 0;
-  // let interval = setInterval(() => {
-  //   if (FlagToggler.isFlagActive()) {
-  //     console.log('Flag in App9 number 2 is active!');
-  //   } else {
-  //     console.log('Flag in App9 number 2 is not active!');
-  //   }
-  //   counts++;
-  //   if (counts > 5) {
-  //     clearInterval(interval);
-  //   }
-  // }, 5000);
+  const FlagToggler = manager.newToggler(flagConfig);
+  let counts = 0;
+  let interval = setInterval(() => {
+    if (FlagToggler.isFlagActive()) {
+      console.log('Flag in App9 number 2 is active!');
+    } else {
+      console.log('Flag in App9 number 2 is not active!');
+    }
+    counts++;
+    if (counts > 3) {
+      clearInterval(interval);
+    }
+  }, 3000);
 
   const cleanup = async () => {
     await manager.disconnect();
