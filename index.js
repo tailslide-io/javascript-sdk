@@ -1,4 +1,4 @@
-const { FlagManager } = require('./lib/flagManager');
+const FlagManager = require('./lib/flagManager');
 
 const config = {
   server: 'nats://127.0.0.1:4222',
@@ -15,7 +15,7 @@ const config = {
 
   const FlagToggler = manager.newToggler(flagConfig);
   let counts = 0;
-  // let interval = setInterval(() => {
+
   if (FlagToggler.isFlagActive()) {
     console.log('Flag in App9 number 2 is active!');
     await FlagToggler.emitSuccess();
@@ -23,11 +23,6 @@ const config = {
     console.log('Flag in App9 number 2 is not active!');
     await FlagToggler.emitFailure();
   }
-  //   counts++;
-  //   if (counts > 3) {
-  //     clearInterval(interval);
-  //   }
-  // }, 3000);
 
   const response = await manager.redisTSClient.readRedisSignal(
     FlagToggler.flagId,
