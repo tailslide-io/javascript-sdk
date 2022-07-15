@@ -18,14 +18,22 @@ const config = {
   // let interval = setInterval(() => {
   if (FlagToggler.isFlagActive()) {
     console.log('Flag in App9 number 2 is active!');
+    await FlagToggler.emitSuccess();
   } else {
     console.log('Flag in App9 number 2 is not active!');
+    await FlagToggler.emitFailure();
   }
   //   counts++;
   //   if (counts > 3) {
   //     clearInterval(interval);
   //   }
   // }, 3000);
+
+  const response = await manager.redisTSClient.readRedisSignal(
+    FlagToggler.flagId,
+    'failure'
+  );
+  console.log(response);
 
   const cleanup = async () => {
     await manager.disconnect();
