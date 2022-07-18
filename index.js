@@ -2,7 +2,7 @@ const FlagManager = require('./lib/flagManager');
 
 const config = {
   server: 'nats://127.0.0.1:4222',
-  appId: 9,
+  appId: 1,
   userContext: 'dfcc8acc-8b99-42f7-b63d-b7c51268f2c4',
 };
 
