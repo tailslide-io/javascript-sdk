@@ -7,7 +7,8 @@ const config = {
 
 (async () => {
   const manager = new FlagManager(config);
-  await manager.init();
+  // await manager.init();
+  await manager.initializeFlags();
 
   const flagConfig = {
     flagName: 'Flag in app 9 number 2',
