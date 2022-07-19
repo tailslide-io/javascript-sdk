@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/tailslide-io/tailslide.js#readme",
   "dependencies": {
+    "@redis/time-series": "^1.0.3",
     "nats": "^2.7.1",
-    "redistimeseries-js": "^2.3.1"
+    "redis": "^4.2.0"
   }
 }

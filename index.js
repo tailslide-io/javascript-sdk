@@ -15,7 +15,7 @@ const config = {
   await manager.initializeFlags();
 
   const flagConfig = {
-    flagName: 'Flag in app 9 number 1',
+    flagName: 'Flag in app 1 number 1',
   };
 
   const FlagToggler = manager.newToggler(flagConfig);
@@ -34,6 +34,23 @@ const config = {
   //   'failure'
   // );
   // console.log(response);
+
+  let count = 0;
+  const interval = setInterval(async () => {
+    let randomInt = Math.random();
+
+    if (randomInt < 0.5) {
+      console.log('emtting success');
+      await FlagToggler.emitSuccess();
+    } else {
+      console.log('emitting failure');
+      await FlagToggler.emitFailure();
+    }
+    count++;
+    if (count > 20) {
+      clearInterval(interval);
+    }
+  }, 100);
 
   const cleanup = async () => {
     await manager.disconnect();
