@@ -15,7 +15,7 @@ const config = {
   await manager.initializeFlags();
 
   const flagConfig = {
-    flagName: 'Flag in app 9 number 2',
+    flagName: 'Flag in app 9 number 1',
   };
 
   const FlagToggler = manager.newToggler(flagConfig);
