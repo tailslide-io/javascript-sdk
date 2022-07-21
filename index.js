@@ -6,7 +6,7 @@ const flagName = 'Flag in app 1 number 1';
 const config = {
   server: 'nats://127.0.0.1:4222',
   appId: 1,
-  userContext: 'fbe6133c-f751-46f4-b275-4e8c3aa22e24',
+  userContext: '375d39e6-9c3f-4f58-80bd-e5960b710295',
 };
 
 // fbe6133c-f751-46f4-b275-4e8c3aa22e24 -> 84
@@ -23,38 +23,31 @@ const config = {
   };
 
   const FlagToggler = manager.newToggler(flagConfig);
-  let counts = 0;
 
-  if (FlagToggler.isFlagActive()) {
-    console.log(`Flag in ${appId} with name "${flagName}" is active!`);
-    await FlagToggler.emitSuccess();
-  } else {
-    console.log(`Flag in ${appId} with name "${flagName}" is not active!`);
-    await FlagToggler.emitFailure();
-  }
+  // if (FlagToggler.isFlagActive()) {
+  //   console.log(`Flag in ${appId} with name "${flagName}" is active!`);
+  //   await FlagToggler.emitSuccess();
+  // } else {
+  //   console.log(`Flag in ${appId} with name "${flagName}" is not active!`);
+  //   await FlagToggler.emitFailure();
+  // }
 
-  // const response = await manager.redisTSClient.readRedisSignal(
-  //   FlagToggler.flagId,
-  //   'failure'
-  // );
-  // console.log(response);
+  let count = 0;
+  const interval = setInterval(async () => {
+    let randomInt = Math.random();
 
-  // let count = 0;
-  // const interval = setInterval(async () => {
-  //   let randomInt = Math.random();
-
-  //   if (randomInt < 0.5) {
-  //     console.log('emitting success');
-  //     await FlagToggler.emitSuccess();
-  //   } else {
-  //     console.log('emitting failure');
-  //     await FlagToggler.emitFailure();
-  //   }
-  //   count++;
-  //   if (count > 20) {
-  //     clearInterval(interval);
-  //   }
-  // }, 100);
+    if (randomInt < 0.2) {
+      console.log('emitting success');
+      await FlagToggler.emitSuccess();
+    } else {
+      console.log('emitting failure');
+      await FlagToggler.emitFailure();
+    }
+    count++;
+    if (count > 20) {
+      clearInterval(interval);
+    }
+  }, 100);
 
   const cleanup = async () => {
     await manager.disconnect();
