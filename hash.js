@@ -3,7 +3,7 @@ const crypto = require('crypto');
 function isUserInRollout(uuid) {
   const rollout_percentage = 500;
   const hash = crypto.createHash('md5').update(uuid).digest('hex');
-  const value = parseInt(hash, 16) % 1000;
+  const value = parseInt(hash, 16) % 100;
   console.log(value);
   return value < rollout_percentage;
 }
