@@ -36,7 +36,7 @@ const config = {
   const interval = setInterval(async () => {
     let randomInt = Math.random();
 
-    if (randomInt < 0.2) {
+    if (randomInt < 1) {
       console.log('emitting success');
       await FlagToggler.emitSuccess();
     } else {
