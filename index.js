@@ -32,12 +32,12 @@ const config = {
     console.log(`Flag in ${appId} with name "${flagName}" is not active!`);
     await FlagToggler.emitFailure();
   }
-
+  const successRates = [0.2, 0.8, 0.2, 0.8, 0.2];
   let count = 0;
   const interval = setInterval(async () => {
     let randomInt = Math.random();
 
-    if (randomInt < 1) {
+    if (randomInt < 0.01) {
       console.log('emitting success');
       await FlagToggler.emitSuccess();
     } else {
@@ -45,7 +45,7 @@ const config = {
       await FlagToggler.emitFailure();
     }
     count++;
-    if (count > 20) {
+    if (count > 100) {
       clearInterval(interval);
     }
   }, 1000);
