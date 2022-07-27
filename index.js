@@ -1,3 +1,4 @@
+const SimpleNoise = require('yy-noise');
 const FlagManager = require('./lib/flagManager');
 
 const appId = 1;
@@ -23,30 +24,39 @@ const config = {
     flagName,
   };
 
-  const FlagToggler = manager.newToggler(flagConfig);
+  const flagToggler = manager.newToggler(flagConfig);
 
-  if (FlagToggler.isFlagActive()) {
+  if (flagToggler.isFlagActive()) {
     console.log(`Flag in ${appId} with name "${flagName}" is active!`);
-    await FlagToggler.emitSuccess();
+    await flagToggler.emitSuccess();
   } else {
     console.log(`Flag in ${appId} with name "${flagName}" is not active!`);
-    await FlagToggler.emitFailure();
+    await flagToggler.emitFailure();
   }
   const successRates = [0.2, 0.8, 0.2, 0.8, 0.2];
   let count = 0;
-  const interval = setInterval(async () => {
-    let randomInt = Math.random();
+  const noise = new SimpleNoise({ amplitude: 1, scale: 0.25 });
 
-    if (randomInt < 0.01) {
-      console.log('emitting success');
-      await FlagToggler.emitSuccess();
-    } else {
-      console.log('emitting failure');
-      await FlagToggler.emitFailure();
-    }
-    count++;
-    if (count > 100) {
-      clearInterval(interval);
+  const interval = setInterval(async () => {
+    // let randomInt = Math.random();
+
+    const noiseValue = noise.get(count);
+    console.log(
+      '🚀 ~ file: index.js ~ line 44 ~ interval ~ noiseValue',
+      noiseValue
+    );
+    if (flagToggler.isFlagActive()) {
+      if (noiseValue < 0.5) {
+        console.log('emitting success');
+        await flagToggler.emitSuccess();
+      } else {
+        console.log('emitting failure');
+        await flagToggler.emitFailure();
+      }
+      count++;
+      if (count > 1000) {
+        clearInterval(interval);
+      }
     }
   }, 1000);
 

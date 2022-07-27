@@ -20,5 +20,11 @@
     "@redis/time-series": "^1.0.3",
     "nats": "^2.7.1",
     "redis": "^4.2.0"
+  },
+  "devDependencies": {
+    "install": "^0.13.0",
+    "npm": "^8.15.0",
+    "yy-noise": "^1.0.1",
+    "yy-random": "^1.10.2"
   }
 }
