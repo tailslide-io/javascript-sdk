@@ -157,15 +157,15 @@ Asynchronously disconnects the `FlagManager` instance from NATS JetStream and Re
 
 ---
 
-## Toggler
+### Toggler
 
 The Toggler class provides methods that determine whether or not new feature code is run and handles success/failure emissions. Each toggler handles one feature flag, and is created by `FlagManager.prototype.newToggler()`.
 
 ---
 
-### Instance Method(s)
+#### Instance Methods
 
-#### `isFlagActive()`
+##### `isFlagActive()`
 
 Checks for flag status, whitelisted users, and rollout percentage in that order to determine whether the new feature is enabled.
 
@@ -184,7 +184,7 @@ Checks for flag status, whitelisted users, and rollout percentage in that order 
 
 ---
 
-#### `emitSuccess()`
+##### `emitSuccess()`
 
 Records a successful operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
@@ -198,7 +198,7 @@ Records a successful operation to the Redis Timeseries database, with key `flagI
 
 ---
 
-#### `emitFailure()`
+##### `emitFailure()`
 
 Records a failure operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
@@ -209,5 +209,3 @@ Records a failure operation to the Redis Timeseries database, with key `flagId:s
 **Return Value**
 
 - `null`
-
-# tailslideReadmeDraft
