@@ -1,6 +1,6 @@
 {
   "name": "tailslide",
-  "version": "1.0.1",
+  "version": "1.1.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/tailslide-io/tailslide.js.git"
   },
-  "author": "",
+  "author": "Steven Liou, Trent Cooper, Elaine Vuong, Jordan Eggers",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tailslide-io/tailslide.js/issues"
@@ -22,6 +22,7 @@
     "redis": "^4.2.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.1",
     "install": "^0.13.0",
     "npm": "^8.15.0",
     "yy-noise": "^1.0.1",
