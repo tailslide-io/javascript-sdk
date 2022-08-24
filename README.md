@@ -186,6 +186,7 @@ The Toggler class provides methods that determine whether or not new feature cod
 
 ##### `Toggler.prototype.isFlagActive()`
 
+
 Checks for flag status, whitelisted users, and rollout percentage in that order to determine whether the new feature is enabled.
 
 - If the flag's active status is false, the function returns `false`
@@ -203,7 +204,9 @@ Checks for flag status, whitelisted users, and rollout percentage in that order 
 
 ---
 
+
 ##### `Toggler.prototype.emitSuccess()`
+
 
 Records a successful operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
@@ -217,7 +220,9 @@ Records a successful operation to the Redis Timeseries database, with key `flagI
 
 ---
 
+
 ##### `Toggler.prototype.emitFailure()`
+
 
 Records a failure operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
