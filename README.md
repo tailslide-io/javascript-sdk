@@ -4,7 +4,7 @@
 
 This package is a server-side SDK for applications written in Node.js for the Tailslide feature flag framework.
 
-Visit the https://github.com/tailslide-io repository or see Tailslide’s case study page for more information.
+Visit the https://github.com/tailslide-io repository or see Tailslide’s [case study](https://tailslide-io.github.io) page for more information.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Install the Tailslide npm package with `npm install tailslide`
 
 ### Instantiating and Initializing FlagManager
 
-The `FlagManager`class is the entry point of this SDK. It is responsible for retrieving all the flag rulesets for a given app with its `appId` and creating new `Toggler` instances to handle toggling of feature flags within that app. To instantiate a `FlagManger` object, a user must provide a configuration object:
+The `FlagManager`class is the entry point of this SDK. It is responsible for retrieving all the flag rulesets for a given app with its `appId` and creating new `Toggler` instances to handle toggling of feature flags within that app. To instantiate a `FlagManager` object, a user must provide a configuration object:
 
 ```javascript
 const FlagManager = require('tailslide');
@@ -51,7 +51,7 @@ After instantiating a `FlagManager`, invoke the `initialize` method. This method
 
 ### Using Feature Flag with Toggler
 
-Once the `FlagManager` is initialized, it can create a `Toggler`, with the `newToggler` method, for each feature flag that the developer wants to wrap the new and old features in. A `Toggler`’s `isFlagActive` method checks whether the flag with its `flagName` is active or not based on the flag ruleset. A `Toggler`’s `isFlagActive` method returns a boolean value, which is intended to be used to control branching logic flow within an application at runtime, to invoke new features.
+Once the `FlagManager` is initialized, it can create a `Toggler`, with the `newToggler` method, for each feature flag that the developer wants to wrap the new and old features in. A `Toggler`’s `isFlagActive` method checks whether the flag with its `flagName` is active or not based on the flag ruleset. A `Toggler`’s `isFlagActive` method returns a boolean value, which can be used to evaluate whether a new feature should be used or not.
 
 ```javascript
 const flagConfig = {
@@ -71,7 +71,7 @@ if (flagToggler.isFlagActive()) {
 
 ### Emitting Success or Failture
 
-To use the `Toggler` instances to record successful or failed operations, call its `emitSuccess` or `emitFailure` methods:
+To use a `Toggler` instance to record successful or failed operations, call its `emitSuccess` or `emitFailure` methods:
 
 ```javascript
 if (successCondition) {
@@ -94,7 +94,8 @@ The `FlagManager` class is the entry point of the SDK. A new `FlagManager` objec
 **Parameters:**
 
 - An object with the following keys
-  - `server` a string that represents the URL and port of the NATS server.
+  - `natsServer` is the NATS JetStream server `address:port`
+  - `natsStream` is the NATS JetStream’s stream name that stores all the apps and their flag rulesets
   - `appId` a number representing the application the microservice belongs to
   - `sdkKey` a string generated via the Tower front-end for NATS JetStream authentication
   - `userContext` a string representing the user’s UUID
@@ -105,11 +106,13 @@ The `FlagManager` class is the entry point of the SDK. A new `FlagManager` objec
 
 #### Instance Methods
 
-###### `FlagManager.prototype.setUserContext(newUserContext)`
+##### `flagmanager.initialize()`
+
+Asynchronously initialize `flagmanager` connections to NATS JetStream and Redis database
 
 **Parameters:**
 
-- A UUID string that represents the current active user
+- `null`
 
 **Return Value:**
 
@@ -117,7 +120,23 @@ The `FlagManager` class is the entry point of the SDK. A new `FlagManager` objec
 
 ---
 
-###### `FlagManager.prototype.getUserContext()`
+##### `FlagManager.prototype.setUserContext(newUserContext)`
+
+Set the current user's context for the `flagmanager`
+
+**Parameters:**
+
+- `newUserContext`: A UUID string that represents the current active user
+
+**Return Value:**
+
+- `null`
+
+---
+
+##### `FlagManager.prototype.getUserContext()`
+
+Returns the current user context
 
 **Parameters:**
 
@@ -129,13 +148,13 @@ The `FlagManager` class is the entry point of the SDK. A new `FlagManager` objec
 
 ---
 
-###### `FlagManager.prototype.newToggler(options)`
+##### `FlagManager.prototype.newToggler(options)`
 
 Creates a new toggler to check for a feature flag's status from the current app's flag ruleset by the flag's name.
 
 **Parameters:**
 
-- An object with key of `flagName` and a string value representing the name of the feature flag for the new toggler to check whether the new feature is enabled
+- `options`: An object with key of `flagName` and a string value representing the name of the feature flag for the new toggler to check whether the new feature is enabled
 
 **Return Value:**
 
@@ -143,7 +162,7 @@ Creates a new toggler to check for a feature flag's status from the current app'
 
 ---
 
-###### `FlagManager.prototype.disconnect()`
+##### `FlagManager.prototype.disconnect()`
 
 Asynchronously disconnects the `FlagManager` instance from NATS JetStream and Redis database
 
@@ -165,7 +184,8 @@ The Toggler class provides methods that determine whether or not new feature cod
 
 #### Instance Methods
 
-##### `isFlagActive()`
+##### `Toggler.prototype.isFlagActive()`
+
 
 Checks for flag status, whitelisted users, and rollout percentage in that order to determine whether the new feature is enabled.
 
@@ -180,11 +200,13 @@ Checks for flag status, whitelisted users, and rollout percentage in that order 
 
 **Return Value**
 
-- `true` or `flase` depending on whether the feature flag is active
+- `true` or `false` depending on whether the feature flag is active
 
 ---
 
-##### `emitSuccess()`
+
+##### `Toggler.prototype.emitSuccess()`
+
 
 Records a successful operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
@@ -198,7 +220,9 @@ Records a successful operation to the Redis Timeseries database, with key `flagI
 
 ---
 
-##### `emitFailure()`
+
+##### `Toggler.prototype.emitFailure()`
+
 
 Records a failure operation to the Redis Timeseries database, with key `flagId:success` and value of current timestamp
 
