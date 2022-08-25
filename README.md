@@ -1,4 +1,4 @@
-# Node.js SDK for Tailslide
+# Node.js SDK
 
 ---
 
